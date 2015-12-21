@@ -27,15 +27,15 @@ public class Main {
 		
 		EV3ColorSensor sensor2 = new EV3ColorSensor(SensorPort.S2);
 		SampleProvider light = sensor2.getColorIDMode();
-		float sample2[] = new float[light.sampleSize()];
+		float lightValue[] = new float[light.sampleSize()];
 		
 		SensorModes sensor3 = new EV3UltrasonicSensor(SensorPort.S3); 
 		SampleProvider us = sensor3.getMode("Distance");
-		float sample3[] = new float[us.sampleSize()];
+		float usValue[] = new float[us.sampleSize()];
 		
 		SensorModes sensor4 = new EV3TouchSensor(SensorPort.S4);
 		SampleProvider touch = sensor4.getMode("Touch");
-		float sample4[] = new float[touch.sampleSize()];
+		float touchValue[] = new float[touch.sampleSize()];
 		
 		LCD.drawString("Moin moin.", 1, 1);
 		Delay.msDelay(3000);
