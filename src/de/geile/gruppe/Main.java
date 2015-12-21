@@ -36,8 +36,31 @@ public class Main {
 		SampleProvider touch = sensor4.getMode("Touch");
 		float touchValue[] = new float[touch.sampleSize()];
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		LCD.drawString("Moin moin.", 1, 1);
-		Delay.msDelay(3000);
+
+		touch.fetchSample(touchValue, 0);
+		Sound.beep();
+		while(touchValue[0] == 0){
+			touch.fetchSample(touchValue, 0);
+			Delay.msDelay(100);
+		}
+		
 		LCD.drawString("Starte Motoren!", 1, 1);
 		Delay.msDelay(2000);
 		Sound.twoBeeps();
@@ -49,18 +72,12 @@ public class Main {
 		motor_rechts.forward();
 		LCD.clear();
 		
-		
-		/*
-		EV3ColorSensor color = new EV3ColorSensor(SensorPort.S2);
-		LCD.drawString(String.valueOf(color.getColorID()), 1, 1);
-		*/
-		
 		touch.fetchSample(touchValue, 0);
 		distance.fetchSample(distanceValue, 0);
-		while (touchValue[0] == 0 && distanceValue[0] > 0.05f) {
+		while (touchValue[0] == 0 && distanceValue[0] > 0.07f) {
 			LCD.drawString("groesser 10 Zentimeter", 0, 0);
 			LCD.drawString(String.valueOf(distanceValue[0]), 0, 1);
-			Delay.msDelay(100);
+			Delay.msDelay(50);
 			distance.fetchSample(distanceValue, 0);
 			touch.fetchSample(touchValue, 0);
 		}
@@ -70,9 +87,13 @@ public class Main {
 		LCD.clear();
 		motor_links.stop();
 		motor_rechts.stop();
-		Delay.msDelay(1000);
+		Delay.msDelay(200);
 		motor_sensor.rotateTo(90);
-		Delay.msDelay(500);
+		Delay.msDelay(200);
+		motor_links.setSpeed(50);
+		motor_rechts.setSpeed(50);
+		motor_links.rotate(30, true);
+		motor_rechts.rotate(30);
 		color.fetchSample(colorValue, 0);
 		LCD.drawString(String.valueOf(colorValue[0]), 0, 0);
 		Delay.msDelay(2000);
