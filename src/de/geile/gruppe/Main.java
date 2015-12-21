@@ -1,4 +1,4 @@
-package de.pohl.test;
+package de.geile.gruppe;
 
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
