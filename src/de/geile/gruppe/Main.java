@@ -24,16 +24,13 @@ public class Main {
 		RegulatedMotor motor_rechts = new EV3LargeRegulatedMotor(MotorPort.D);
 		RegulatedMotor motor_sensor = new EV3MediumRegulatedMotor(MotorPort.B);
 		
-		
 		EV3ColorSensor sensor2 = new EV3ColorSensor(SensorPort.S2);
 		SampleProvider color = sensor2.getColorIDMode();
 		float colorValue[] = new float[color.sampleSize()];
-
 		
 		SensorModes sensor3 = new EV3UltrasonicSensor(SensorPort.S3); 
 		SampleProvider distance = sensor3.getMode("Distance");
 		float distanceValue[] = new float[distance.sampleSize()];
-
 		
 		SensorModes sensor4 = new EV3TouchSensor(SensorPort.S4);
 		SampleProvider touch = sensor4.getMode("Touch");
