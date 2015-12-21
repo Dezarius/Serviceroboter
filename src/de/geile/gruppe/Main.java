@@ -9,6 +9,7 @@ import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.NXTUltrasonicSensor;
@@ -20,9 +21,17 @@ import lejos.utility.Delay;
 public class Main {
 
 	public static void main(String[] args) {
+		
+		int i = 0;
+		
 		RegulatedMotor motor_links = new EV3LargeRegulatedMotor(MotorPort.A);
 		RegulatedMotor motor_rechts = new EV3LargeRegulatedMotor(MotorPort.D);
 		RegulatedMotor motor_sensor = new EV3MediumRegulatedMotor(MotorPort.B);
+		
+		EV3GyroSensor sensor1 = new EV3GyroSensor(SensorPort.S1);
+		sensor1.reset();
+		SampleProvider gyro = sensor1.getMode("Angle");
+		float gyroValue[] = new float[gyro.sampleSize()];
 		
 		EV3ColorSensor sensor2 = new EV3ColorSensor(SensorPort.S2);
 		SampleProvider color = sensor2.getColorIDMode();
@@ -45,10 +54,68 @@ public class Main {
 			touch.fetchSample(touchValue, 0);
 			Delay.msDelay(100);
 		}
+		LCD.clear();
 		Delay.msDelay(1000);
 		
 		touch.fetchSample(touchValue, 0);
+		gyro.fetchSample(gyroValue, 0);
 		while (touchValue[0] == 0) {
+			if(!motor_links.isMoving() && !motor_rechts.isMoving()){
+				motor_links.setSpeed(250);
+				motor_rechts.setSpeed(250);
+				motor_links.forward();
+				motor_rechts.forward();
+			}
+			color.fetchSample(colorValue, 0);
+			if (colorValue[0] != 7) {
+				motor_links.setSpeed(250);
+				motor_rechts.setSpeed(175);
+				
+			} else {
+				motor_links.setSpeed(250);
+				motor_rechts.setSpeed(250);
+				motor_links.stop();
+				Delay.msDelay(150);
+				motor_links.forward();
+			}
+			gyro.fetchSample(gyroValue, 0);
+			if(gyroValue[0] < (i-20)){
+				while(gyroValue[0] > (i-90)){
+					motor_links.stop();
+					motor_rechts.setSpeed(250);
+					motor_rechts.backward();
+					LCD.drawString(String.valueOf(gyroValue[0]), 0, 1);
+					gyro.fetchSample(gyroValue, 0);
+				}
+				motor_links.setSpeed(250);
+				motor_rechts.setSpeed(175);
+				motor_rechts.forward();
+				i -= 90;
+			} 
+			/*
+			else if(gyroValue[0] > (i+20)){
+				while(gyroValue[0] < (i+90)){
+					motor_links.setSpeed(100);
+					motor_rechts.setSpeed(250);
+					LCD.drawString(String.valueOf(gyroValue[0]), 0, 1);
+					gyro.fetchSample(gyroValue, 0);
+				}
+				motor_links.setSpeed(250);
+				motor_rechts.setSpeed(175);
+				motor_links.forward();
+				i += 90;
+			}
+			*/
+			touch.fetchSample(touchValue, 0);
+		}
+		
+		
+		
+		/*
+		touch.fetchSample(touchValue, 0);
+		gyro.fetchSample(gyroValue, 0);
+		while (touchValue[0] == 0) {
+			LCD.drawString(String.valueOf(gyroValue[0]), 0, 1);
 			
 			if(!motor_links.isMoving() && !motor_rechts.isMoving()){
 				motor_links.setSpeed(250);
@@ -70,10 +137,17 @@ public class Main {
 				Delay.msDelay(150);
 				motor_links.forward();
 			}
+			gyro.fetchSample(gyroValue, 0);
 			touch.fetchSample(touchValue, 0);
 		}
 		motor_links.stop();
 		motor_rechts.stop();
+		*/
+		
+		
+		
+		
+		
 		
 		
 		/*
