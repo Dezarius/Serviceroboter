@@ -37,21 +37,6 @@ public class Main {
 		float touchValue[] = new float[touch.sampleSize()];
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		LCD.drawString("Moin moin.", 1, 1);
 
 		touch.fetchSample(touchValue, 0);
@@ -60,6 +45,52 @@ public class Main {
 			touch.fetchSample(touchValue, 0);
 			Delay.msDelay(100);
 		}
+		Delay.msDelay(1000);
+		
+		touch.fetchSample(touchValue, 0);
+		while (touchValue[0] == 0) {
+			
+			if(!motor_links.isMoving() && !motor_rechts.isMoving()){
+				motor_links.setSpeed(250);
+				motor_rechts.setSpeed(250);
+				motor_links.forward();
+				motor_rechts.forward();
+			}
+			color.fetchSample(colorValue, 0);
+			if (colorValue[0] != 7) {
+				
+				motor_links.setSpeed(250);
+				motor_rechts.setSpeed(100);
+				
+				
+			} else {
+				motor_links.setSpeed(250);
+				motor_rechts.setSpeed(250);
+				motor_links.stop();
+				Delay.msDelay(150);
+				motor_links.forward();
+			}
+			touch.fetchSample(touchValue, 0);
+		}
+		motor_links.stop();
+		motor_rechts.stop();
+		
+		
+		/*
+		
+		motor_links.setSpeed(250);
+		motor_rechts.setSpeed(180);
+		motor_links.forward();
+		motor_rechts.forward();
+		touch.fetchSample(touchValue, 0);
+		while (touchValue[0] == 0) {
+			touch.fetchSample(touchValue, 0);
+		}
+		
+		
+		
+		
+		
 		
 		LCD.drawString("Starte Motoren!", 1, 1);
 		Delay.msDelay(2000);
@@ -87,18 +118,20 @@ public class Main {
 		LCD.clear();
 		motor_links.stop();
 		motor_rechts.stop();
+		motor_links.setSpeed(150);
+		motor_links.rotate(45);
 		Delay.msDelay(200);
 		motor_sensor.rotateTo(90);
 		Delay.msDelay(200);
 		motor_links.setSpeed(50);
 		motor_rechts.setSpeed(50);
-		motor_links.rotate(30, true);
-		motor_rechts.rotate(30);
+		motor_links.rotate(20, true);
+		motor_rechts.rotate(20);
 		color.fetchSample(colorValue, 0);
 		LCD.drawString(String.valueOf(colorValue[0]), 0, 0);
 		Delay.msDelay(2000);
 		motor_sensor.rotateTo(0);
-		
+		*/
 		
 	}
 
