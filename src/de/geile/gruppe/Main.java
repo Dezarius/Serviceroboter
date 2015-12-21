@@ -33,6 +33,7 @@ public class Main {
 		SensorModes sensor3 = new EV3UltrasonicSensor(SensorPort.S3); 
 		SampleProvider distance = sensor3.getMode("Distance");
 		float distanceValue[] = new float[distance.sampleSize()];
+
 		
 		SensorModes sensor4 = new EV3TouchSensor(SensorPort.S4);
 		SampleProvider touch = sensor4.getMode("Touch");
