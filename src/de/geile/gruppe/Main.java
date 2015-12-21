@@ -26,16 +26,17 @@ public class Main {
 		
 		
 		EV3ColorSensor sensor2 = new EV3ColorSensor(SensorPort.S2);
-		SampleProvider light = sensor2.getColorIDMode();
-		float sample2[] = new float[light.sampleSize()];
+		SampleProvider color = sensor2.getColorIDMode();
+		float colorValue[] = new float[color.sampleSize()];
+
 		
 		SensorModes sensor3 = new EV3UltrasonicSensor(SensorPort.S3); 
-		SampleProvider us = sensor3.getMode("Distance");
-		float sample3[] = new float[us.sampleSize()];
+		SampleProvider distance = sensor3.getMode("Distance");
+		float distanceValue[] = new float[distance.sampleSize()];
 		
 		SensorModes sensor4 = new EV3TouchSensor(SensorPort.S4);
 		SampleProvider touch = sensor4.getMode("Touch");
-		float sample4[] = new float[touch.sampleSize()];
+		float touchValue[] = new float[touch.sampleSize()];
 		
 		LCD.drawString("Moin moin.", 1, 1);
 		Delay.msDelay(3000);
@@ -56,26 +57,26 @@ public class Main {
 		LCD.drawString(String.valueOf(color.getColorID()), 1, 1);
 		*/
 		
-		touch.fetchSample(sample4, 0);
-		us.fetchSample(sample3, 0);
-		while (sample4[0] == 0 && sample3[0] > 0.1f) {
+		touch.fetchSample(touchValue, 0);
+		distance.fetchSample(distanceValue, 0);
+		while (touchValue[0] == 0 && distanceValue[0] > 0.05f) {
 			LCD.drawString("groesser 10 Zentimeter", 0, 0);
-			LCD.drawString(String.valueOf(sample3[0]), 0, 1);
+			LCD.drawString(String.valueOf(distanceValue[0]), 0, 1);
 			Delay.msDelay(100);
-			us.fetchSample(sample3, 0);
-			touch.fetchSample(sample4, 0);
+			distance.fetchSample(distanceValue, 0);
+			touch.fetchSample(touchValue, 0);
 		}
 		
 		LCD.drawString("kleiner 10 Zentimeter", 0, 0);
-		LCD.drawString(String.valueOf(sample3[0]), 0, 1);
+		LCD.drawString(String.valueOf(distanceValue[0]), 0, 1);
 		LCD.clear();
 		motor_links.stop();
 		motor_rechts.stop();
 		Delay.msDelay(1000);
 		motor_sensor.rotateTo(90);
 		Delay.msDelay(500);
-		light.fetchSample(sample2, 0);
-		LCD.drawString(String.valueOf(sample2[0]), 0, 0);
+		color.fetchSample(colorValue, 0);
+		LCD.drawString(String.valueOf(colorValue[0]), 0, 0);
 		Delay.msDelay(2000);
 		motor_sensor.rotateTo(0);
 		
