@@ -29,6 +29,7 @@ public class Main {
 		RegulatedMotor motor_sensor = new EV3MediumRegulatedMotor(MotorPort.B);
 		
 		EV3GyroSensor sensor1 = new EV3GyroSensor(SensorPort.S1);
+		sensor1.reset();
 		SampleProvider gyro = sensor1.getMode("Angle");
 		float gyroValue[] = new float[gyro.sampleSize()];
 		
@@ -88,7 +89,7 @@ public class Main {
 				gyro.fetchSample(gyroValue, 0);
 			}
 			// Kurven
-			while(colorValue[0] != 7 && gyroValue[0] <= 3 && gyroValue[0] >= -3){
+			while(colorValue[0] != 7 && gyroValue[0] <= 3 && gyroValue[0] >= -3 && touchValue[0] == 0){
 				boolean onLine = false;
 				motor_links.stop(true);
 				motor_rechts.stop();
@@ -108,10 +109,22 @@ public class Main {
 					gyro.fetchSample(gyroValue, 0);
 				}
 				// Linkskurve
+				motor_rechts.stop();
 				if (!onLine){
-					//Gerade ausrichten						
-					while(gyroValue[0] < 180 && !onLine){	
+					LCD.clear();
+					LCD.drawString("falsch", 1, 1);
+					sensor1.reset();
+					gyro.fetchSample(gyroValue, 0);
+					while(gyroValue[0] < 90 && !onLine){	
+						motor_rechts.forward();	
+						gyro.fetchSample(gyroValue, 0);
+					}
+					sensor1.reset();
+					gyro.fetchSample(gyroValue, 0);
+					while(gyroValue[0] < 90 && !onLine){
 						motor_links.backward();
+						LCD.clear();
+						LCD.drawString("ja", 1, 1);
 						color.fetchSample(colorValue, 0);
 						if (colorValue[0] == 7){
 							onLine = true;
