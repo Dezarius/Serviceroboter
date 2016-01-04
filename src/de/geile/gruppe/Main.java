@@ -55,99 +55,11 @@ public class Main {
 			Delay.msDelay(100);
 		}
 		LCD.clear();
-		Delay.msDelay(500);
+		Delay.msDelay(1000);
 		
 		touch.fetchSample(touchValue, 0);
-		
-		while(touchValue[0] == 0){
-			gyro.fetchSample(gyroValue, 0);
-			color.fetchSample(colorValue, 0);
-			
-			//Geradeaus auf Linien
-			while(colorValue[0] == 7 && gyroValue[0] <= 3 && gyroValue[0] >= -3){
-				if(!motor_links.isMoving() && !motor_rechts.isMoving()){
-					motor_links.setSpeed(250);
-					motor_rechts.setSpeed(250);
-					motor_links.forward();
-					motor_rechts.forward();
-				}	
-				color.fetchSample(colorValue, 0);
-				gyro.fetchSample(gyroValue, 0);
-			}
-			// Abweichung nach links
-			while(colorValue[0] == 7 && gyroValue[0] >= 3){
-					motor_links.setSpeed(250);
-					motor_rechts.setSpeed(210);
-					color.fetchSample(colorValue, 0);
-					gyro.fetchSample(gyroValue, 0);
-			}
-			// Abweichung nach rechts
-			while(colorValue[0] == 7 && gyroValue[0] <= -3){
-				motor_links.setSpeed(210);
-				motor_rechts.setSpeed(250);
-				color.fetchSample(colorValue, 0);
-				gyro.fetchSample(gyroValue, 0);
-			}
-			// Kurven
-			while(colorValue[0] != 7 && gyroValue[0] <= 3 && gyroValue[0] >= -3 && touchValue[0] == 0){
-				boolean onLine = false;
-				motor_links.stop(true);
-				motor_rechts.stop();
-				motor_links.setSpeed(175);
-				motor_rechts.setSpeed(175);
-				gyro.fetchSample(gyroValue, 0);
-				
-				// Rechtskurve
-				while(gyroValue[0] > -90 && !onLine){	
-					motor_rechts.backward();
-					color.fetchSample(colorValue, 0);
-					if (colorValue[0] == 7){
-						onLine = true;
-						motor_rechts.stop();
-						sensor1.reset();
-					}
-					gyro.fetchSample(gyroValue, 0);
-				}
-				// Linkskurve
-				motor_rechts.stop();
-				if (!onLine){
-					LCD.clear();
-					LCD.drawString("falsch", 1, 1);
-					sensor1.reset();
-					gyro.fetchSample(gyroValue, 0);
-					while(gyroValue[0] < 90 && !onLine){	
-						motor_rechts.forward();	
-						gyro.fetchSample(gyroValue, 0);
-					}
-					sensor1.reset();
-					gyro.fetchSample(gyroValue, 0);
-					while(gyroValue[0] < 90 && !onLine){
-						motor_links.backward();
-						LCD.clear();
-						LCD.drawString("ja", 1, 1);
-						color.fetchSample(colorValue, 0);
-						if (colorValue[0] == 7){
-							onLine = true;
-							motor_links.stop();
-							sensor1.reset();
-						}
-						gyro.fetchSample(gyroValue, 0);
-					}
-					
-				}
-				
-				if (!onLine){
-					motor_links.stop();
-					motor_rechts.stop();
-					LCD.clear();
-					LCD.drawString("Ende erreicht.", 1, 1);
-				}
-			}
-			touch.fetchSample(touchValue, 0);
-		}
-		
-		
-		/*while (touchValue[0] == 0) {
+		gyro.fetchSample(gyroValue, 0);
+		while (touchValue[0] == 0) {
 			if(!motor_links.isMoving() && !motor_rechts.isMoving()){
 				motor_links.setSpeed(250);
 				motor_rechts.setSpeed(250);
@@ -180,7 +92,7 @@ public class Main {
 				motor_rechts.forward();
 				i -= 90;
 			} 
-			
+			/*
 			else if(gyroValue[0] > (i+20)){
 				while(gyroValue[0] < (i+90)){
 					motor_links.setSpeed(100);
@@ -193,13 +105,13 @@ public class Main {
 				motor_links.forward();
 				i += 90;
 			}
-			
+			*/
 			touch.fetchSample(touchValue, 0);
 		}
 		
 		
 		
-		
+		/*
 		touch.fetchSample(touchValue, 0);
 		gyro.fetchSample(gyroValue, 0);
 		while (touchValue[0] == 0) {
@@ -230,6 +142,7 @@ public class Main {
 		}
 		motor_links.stop();
 		motor_rechts.stop();
+		*/
 		
 		
 		
@@ -237,8 +150,7 @@ public class Main {
 		
 		
 		
-		
-		
+		/*
 		
 		motor_links.setSpeed(250);
 		motor_rechts.setSpeed(180);
