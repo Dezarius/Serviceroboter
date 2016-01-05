@@ -145,8 +145,6 @@ public class Pit {
 					lastLeft=true;
 				}
 				
-				LCD.drawString(Boolean.toString(lastLeft), 1, 1);
-				
 			}
 			touch.fetchSample(touchValue, 0);			
 		}
