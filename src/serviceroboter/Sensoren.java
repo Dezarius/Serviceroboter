@@ -10,6 +10,11 @@ import lejos.robotics.SampleProvider;
 
 public class Sensoren {
 	
+	EV3GyroSensor sensor1;
+	EV3ColorSensor sensor2;
+	SensorModes sensor3;
+	SensorModes sensor4;
+	
 	SampleProvider gyro;
 	SampleProvider color;
 	SampleProvider distance;
@@ -24,20 +29,20 @@ public class Sensoren {
 	float tempValues[] = new float[1];
 	
 	public Sensoren() {
-		EV3GyroSensor sensor1 = new EV3GyroSensor(SensorPort.S1);
+		this.sensor1 = new EV3GyroSensor(SensorPort.S1);
 		this.gyro = sensor1.getMode("Angle");
 		this.gyroValue = new float[gyro.sampleSize()];
 		sensor1.reset();
 		
-		EV3ColorSensor sensor2 = new EV3ColorSensor(SensorPort.S2);
+		this.sensor2 = new EV3ColorSensor(SensorPort.S2);
 		this.color = sensor2.getColorIDMode();
 		this.colorValue = new float[color.sampleSize()];
 		
-		SensorModes sensor3 = new EV3UltrasonicSensor(SensorPort.S3); 
+		this.sensor3 = new EV3UltrasonicSensor(SensorPort.S3); 
 		this.distance = sensor3.getMode("Distance");
 		this.distanceValue = new float[distance.sampleSize()];
 		
-		SensorModes sensor4 = new EV3TouchSensor(SensorPort.S4);
+		this.sensor4 = new EV3TouchSensor(SensorPort.S4);
 		this.touch = sensor4.getMode("Touch");
 		this.touchValue = new float[touch.sampleSize()];
 	}
@@ -52,6 +57,10 @@ public class Sensoren {
 		this.touch.fetchSample(this.tempValues, 0);
 		this.values[3] = this.tempValues[0];
 		return values;
+	}
+	
+	public void resetGyro() {
+		sensor1.reset();
 	}
 
 }
