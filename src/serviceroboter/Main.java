@@ -8,7 +8,7 @@ public class Main {
 	static Motoren motoren;
 	static Sensoren sensoren;
 	
-	private static int farbe = 7;
+	private static int farbe = 6;
 	
 	private static boolean search = false;
 	private static int kurve = -1;
@@ -31,7 +31,8 @@ public class Main {
 
 	private static void loop(float values[]) {
 		
-		if(values[1] == 7 && search){
+		if(values[1] == farbe && search){
+			Delay.msDelay(50);
 			if(values[0] > 15){
 				kurve = 1;
 			}
@@ -48,7 +49,7 @@ public class Main {
 		else if(kurve == 2 && values[0] < -15){
 			motoren.turnRight();
 		}
-		else if(values[1] == 7 && !search){
+		else if(values[1] == farbe && !search){
 			motoren.forward();
 			motoren.diviation();
 			

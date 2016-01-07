@@ -77,7 +77,7 @@ public class Motoren {
 		forward = false;
 		float values[] = sensoren.getValues();
 		LCD.drawString(String.valueOf(values[0]), 1, 3);
-		if (values[0] <= 35 && line) {
+		if (values[0] <= 40 && line) {
 			if (!leftTurnFindLine) {
 				motor_links.stop(true);
 				motor_rechts.stop();
@@ -89,10 +89,10 @@ public class Motoren {
 				leftTurnFindLine = true;
 			}
 		}
-		else if (values[0] > 35 && line) {
+		else if (values[0] > 40 && line) {
 			stop();
 		}
-		if (values[0] >= -35 && !line) {
+		if (values[0] >= -40 && !line) {
 			if (!rightTurnFindLine) {
 				motor_links.stop(true);
 				motor_rechts.stop();
@@ -104,7 +104,7 @@ public class Motoren {
 				rightTurnFindLine = true;
 			}
 		}
-		else if (values[0] < -35 && !line) {
+		else if (values[0] < -40 && !line) {
 			line = true;
 			stop();
 		}
@@ -117,7 +117,7 @@ public class Motoren {
 			motor_links.stop(true);
 			motor_rechts.stop();
 			
-			motor_links.setSpeed(50);
+			motor_links.setSpeed(75);
 			motor_rechts.setSpeed(170);
 			motor_links.forward();
 			motor_rechts.forward();
@@ -144,7 +144,7 @@ public class Motoren {
 			motor_rechts.stop();
 			
 			motor_links.setSpeed(170);
-			motor_rechts.setSpeed(50);
+			motor_rechts.setSpeed(75);
 			motor_links.forward();
 			motor_rechts.forward();
 			rightTurn = true;
