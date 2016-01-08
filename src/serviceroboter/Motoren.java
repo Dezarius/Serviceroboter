@@ -1,8 +1,11 @@
 package serviceroboter;
 
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.motor.BasicMotor;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
+import lejos.hardware.motor.Motor;
+import lejos.hardware.motor.NXTMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
@@ -38,8 +41,8 @@ public class Motoren {
 		secondTurnFindLine = false;
 		firstTurnFindLine = false;
 		if (!forward) {
-			motor_links.setSpeed(300);
-			motor_rechts.setSpeed(300);
+			motor_links.setSpeed(350);
+			motor_rechts.setSpeed(350);
 			motor_links.forward();
 			motor_rechts.forward();
 			forward = true;
@@ -56,19 +59,19 @@ public class Motoren {
 		float values[] = sensoren.getValues();
 		//Abweichung links
 		if(values[0] >= 3 && !abweichung) {
-			motor_links.setSpeed(300);
-			motor_rechts.setSpeed(285);
+			motor_links.setSpeed(350);
+			motor_rechts.setSpeed(340);
 			abweichung = true;
 		}
 		//Abweichung rechts
 		else if(values[0] <= -3 && !abweichung) {
-			motor_links.setSpeed(285);
-			motor_rechts.setSpeed(300);
+			motor_links.setSpeed(340);
+			motor_rechts.setSpeed(350);
 			abweichung = true;
 		}
 		else if(values[0] <= 0.5f && values[0] >= -0.5f && abweichung){
-			motor_links.setSpeed(300);
-			motor_rechts.setSpeed(300);
+			motor_links.setSpeed(350);
+			motor_rechts.setSpeed(350);
 			abweichung = false;
 		}
 	}
@@ -81,8 +84,8 @@ public class Motoren {
 		if (values[0] >= 0 && !line && !firstTurnFindLine){
 			rightfirst = true;
 			stop();
-			motor_links.setSpeed(100);
-			motor_rechts.setSpeed(100);
+			motor_links.setSpeed(120);
+			motor_rechts.setSpeed(120);
 			motor_links.forward();
 			motor_rechts.backward();
 			firstTurnFindLine = true;
@@ -90,8 +93,8 @@ public class Motoren {
 		else if (values[0] < 0 && !line && !firstTurnFindLine) {
 			rightfirst = false;
 			stop();
-			motor_links.setSpeed(100);
-			motor_rechts.setSpeed(100);
+			motor_links.setSpeed(120);
+			motor_rechts.setSpeed(120);
 			motor_rechts.forward();
 			motor_links.backward();
 			firstTurnFindLine = true;
@@ -101,16 +104,16 @@ public class Motoren {
 		} 
 		else if (line && !rightfirst && !secondTurnFindLine) {
 			stop();
-			motor_links.setSpeed(100);
-			motor_rechts.setSpeed(100);
+			motor_links.setSpeed(120);
+			motor_rechts.setSpeed(120);
 			motor_links.forward();
 			motor_rechts.backward();
 			secondTurnFindLine = true;
 		} 
 		else if (line && rightfirst && !secondTurnFindLine) {
 			stop();
-			motor_links.setSpeed(100);
-			motor_rechts.setSpeed(100);
+			motor_links.setSpeed(120);
+			motor_rechts.setSpeed(120);
 			motor_rechts.forward();
 			motor_links.backward();
 			secondTurnFindLine = true;
