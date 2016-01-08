@@ -43,29 +43,24 @@ public class Main {
 			motoren.stop();
 		}
 		
-		if(kurve == 1 && values[0] > 15){
+		if(kurve == 1){
 			motoren.turnLeft();
 		}
-		else if(kurve == 2 && values[0] < -15){
+		else if(kurve == 2){
 			motoren.turnRight();
 		}
-		else if(values[1] == farbe && !search){
+		else if(values[1] == farbe && !search && kurve == -1){
 			motoren.forward();
 			motoren.diviation();
-			
-			LCD.drawString("schwarz", 1, 1);
-			LCD.clear(2);
 		}
-		else {
+		else if(values[1] != farbe){
 			motoren.findLine();
 			search = true;
-			LCD.drawString("Nicht schwarz", 1, 2);
-			LCD.clear(1);
 		}
 		
-		if (values[0] >= 90 || values[0] <= -90) {
-			kurve = -1;
-		}
-		
+	}
+	
+	public static void setKurve(int i) {
+		kurve = i;
 	}
 }
