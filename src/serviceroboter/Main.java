@@ -32,7 +32,6 @@ public class Main {
 	private static void loop(float values[]) {
 		
 		if(values[1] == farbe && search){
-			Delay.msDelay(50);
 			if(values[0] > 15){
 				kurve = 1;
 			}
