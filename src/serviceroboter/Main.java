@@ -8,7 +8,7 @@ public class Main {
 	static Motoren motoren;
 	static Sensoren sensoren;	
 	static Hindernis hindernis;
-	static Farbe color;
+	static Farben color;
 	
 	private static int farbe = 6;
 	private static boolean tonne = false;
@@ -21,7 +21,7 @@ public class Main {
 		sensoren = new Sensoren();
 		motoren = new Motoren(sensoren);
 		hindernis = new Hindernis(motoren,sensoren);
-		color = new Farbe();
+		color = new Farben();
 		
 		while (true) {
 			float values[] = sensoren.getValues();

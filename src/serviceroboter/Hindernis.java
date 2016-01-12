@@ -10,7 +10,7 @@ public class Hindernis{
 	boolean convert = false;
 	
 	public Hindernis(Motoren motoren, Sensoren sensoren){
-		motoren = motoren;
+		this.motoren = motoren;
 	}
 	
 	public boolean circumvent(float value){
