@@ -15,6 +15,8 @@ public class Motoren {
 	
 	private NXTMotor motor_links;
 	private NXTMotor motor_rechts;
+	public EV3LargeRegulatedMotor motor_links_ev3;
+	public EV3LargeRegulatedMotor motor_rechts_ev3;
 	private EV3MediumRegulatedMotor motor_sensor;
 	private Sensoren sensoren;
 	
@@ -33,6 +35,36 @@ public class Motoren {
 		this.motor_rechts = new NXTMotor(MotorPort.D);
 		this.motor_sensor = new EV3MediumRegulatedMotor(MotorPort.B);
 		this.sensoren = sensoren;
+	}
+	
+	public void toEV3(){
+		this.close();
+		this.motor_links_ev3 = new EV3LargeRegulatedMotor(MotorPort.A);
+		this.motor_rechts_ev3 = new EV3LargeRegulatedMotor(MotorPort.D);
+	}
+	
+	public void toNXT(){
+		this.close();
+		this.motor_links = new NXTMotor(MotorPort.A);
+		this.motor_rechts = new NXTMotor(MotorPort.D);
+	}
+	
+	public void senkeSensoren(){
+		this.motor_sensor.rotate(85);
+	}
+	
+	public void hebeSensoren(){
+		this.motor_sensor.rotate(-85);
+	}
+	
+	public void ranfahren(){
+		motor_links.setPower(10);
+		motor_rechts.setPower(10);
+		motor_links.forward();
+		motor_rechts.forward();
+		Delay.msDelay(100);
+		motor_links.stop();
+		motor_rechts.stop();
 	}
 	
 	public void close() {

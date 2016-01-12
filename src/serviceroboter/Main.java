@@ -6,9 +6,12 @@ import lejos.utility.Delay;
 public class Main {
 	
 	static Motoren motoren;
-	static Sensoren sensoren;
+	static Sensoren sensoren;	
+	static Hindernis hindernis;
+	static Farbe color;
 	
 	private static int farbe = 6;
+	private static boolean tonne = false;
 	
 	private static boolean search = false;
 	private static int kurve = -1;
@@ -17,6 +20,8 @@ public class Main {
 		
 		sensoren = new Sensoren();
 		motoren = new Motoren(sensoren);
+		hindernis = new Hindernis(motoren,sensoren);
+		color = new Farbe();
 		
 		while (true) {
 			float values[] = sensoren.getValues();
@@ -42,7 +47,21 @@ public class Main {
 			motoren.stop();
 		}
 		
-		if(kurve == 1){
+		if(values[2] <= 0.07f || tonne){
+			if (!tonne){
+				motoren.stop();
+				motoren.hebeSensoren();
+				motoren.ranfahren();
+				color.addColor(values[1]);
+				tonne = true;
+				
+			}
+			if (hindernis.circumvent(values[1])){ 
+				tonne = false;
+				motoren.senkeSensoren();
+			}
+		}
+		else if(kurve == 1){
 			//System.out.println(values[0]);
 			motoren.turnLeft();
 		}
