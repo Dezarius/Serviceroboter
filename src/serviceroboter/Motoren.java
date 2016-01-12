@@ -35,6 +35,11 @@ public class Motoren {
 		this.sensoren = sensoren;
 	}
 	
+	public void close() {
+		this.motor_links.close();
+		this.motor_rechts.close();
+	}
+	
 	public void forward() {
 		line = false;
 		rightTurn = false;
@@ -42,8 +47,8 @@ public class Motoren {
 		secondTurnFindLine = false;
 		firstTurnFindLine = false;
 		if (!forward) {
-			motor_links.setPower(70);
-			motor_rechts.setPower(70);
+			motor_links.setPower(65);
+			motor_rechts.setPower(67);
 			motor_links.forward();
 			motor_rechts.forward();
 			forward = true;
@@ -60,19 +65,19 @@ public class Motoren {
 		float values[] = sensoren.getValues();
 		//Abweichung links
 		if(values[0] >= 3 && !abweichung) {
-			motor_links.setPower(70);
-			motor_rechts.setPower(66);
+			motor_links.setPower(65);
+			motor_rechts.setPower(64);
 			abweichung = true;
 		}
 		//Abweichung rechts
 		else if(values[0] <= -3 && !abweichung) {
-			motor_links.setPower(66);
-			motor_rechts.setPower(70);
+			motor_links.setPower(62);
+			motor_rechts.setPower(67);
 			abweichung = true;
 		}
 		else if(values[0] <= 0.5f && values[0] >= -0.5f && abweichung){
-			motor_links.setPower(70);
-			motor_rechts.setPower(70);
+			motor_links.setPower(65);
+			motor_rechts.setPower(67);
 			abweichung = false;
 		}
 	}
@@ -80,13 +85,13 @@ public class Motoren {
 	public void findLine(){
 		forward = false;
 		abweichung = false;
-		float values[] = sensoren.getValues();
 		
+		float values[] = sensoren.getValues();
 		if (values[0] >= 0 && !line && !firstTurnFindLine){
 			rightfirst = true;
 			stop();
-			motor_links.setPower(30);
-			motor_rechts.setPower(30);
+			motor_links.setPower(35);
+			motor_rechts.setPower(35);
 			motor_links.forward();
 			motor_rechts.backward();
 			firstTurnFindLine = true;
@@ -94,37 +99,37 @@ public class Motoren {
 		else if (values[0] < 0 && !line && !firstTurnFindLine) {
 			rightfirst = false;
 			stop();
-			motor_links.setPower(30);
-			motor_rechts.setPower(30);
+			motor_links.setPower(35);
+			motor_rechts.setPower(35);
 			motor_rechts.forward();
 			motor_links.backward();
 			firstTurnFindLine = true;
 		}
-		else if ((values[0] < -50 || values[0] > 50) && !line) {
+		else if ((values[0] < -60 || values[0] > 60) && !line) {
 			line = true;
 		} 
 		else if (line && !rightfirst && !secondTurnFindLine) {
 			stop();
-			motor_links.setPower(30);
-			motor_rechts.setPower(30);
+			motor_links.setPower(35);
+			motor_rechts.setPower(35);
 			motor_links.forward();
 			motor_rechts.backward();
 			secondTurnFindLine = true;
 		} 
 		else if (line && rightfirst && !secondTurnFindLine) {
 			stop();
-			motor_links.setPower(30);
-			motor_rechts.setPower(30);
+			motor_links.setPower(35);
+			motor_rechts.setPower(35);
 			motor_rechts.forward();
 			motor_links.backward();
 			secondTurnFindLine = true;
 		} 
 		else {
-			if (rightfirst && values[0] > 50 && line) {
+			if (rightfirst && values[0] > 60 && line) {
 				stop();
 				System.out.println("ENDE");
 			}
-			if (!rightfirst && values[0] < -50 && line) {
+			if (!rightfirst && values[0] < -60 && line) {
 				stop();
 				System.out.println("ENDE");
 			}
@@ -147,9 +152,9 @@ public class Motoren {
 			stop();
 			
 			Main.setKurve(-1);
-			Delay.msDelay(50);
-			sensoren.resetGyro();
 			Delay.msDelay(200);
+			sensoren.resetGyro();
+			Delay.msDelay(500);
 			line = false;
 			rightTurn = false;
 			secondTurnFindLine = false;
@@ -172,9 +177,9 @@ public class Motoren {
 			stop();
 			
 			Main.setKurve(-1);
-			Delay.msDelay(50);
-			sensoren.resetGyro();
 			Delay.msDelay(200);
+			sensoren.resetGyro();
+			Delay.msDelay(500);
 			line = false;
 			rightTurn = false;
 			secondTurnFindLine = false;
