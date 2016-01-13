@@ -1,14 +1,9 @@
 package serviceroboter;
 
-import lejos.hardware.lcd.LCD;
-import lejos.hardware.motor.BasicMotor;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
-import lejos.hardware.motor.Motor;
 import lejos.hardware.motor.NXTMotor;
-import lejos.hardware.motor.NXTRegulatedMotor;
 import lejos.hardware.port.MotorPort;
-import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
 public class Motoren {
