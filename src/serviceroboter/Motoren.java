@@ -180,6 +180,7 @@ public class Motoren {
 			
 			Main.setKurve(-1);
 			Delay.msDelay(200);
+
 			sensoren.resetGyro();
 			Delay.msDelay(500);
 			line = false;
@@ -204,6 +205,7 @@ public class Motoren {
 			stop();
 			
 			Main.setKurve(-1);
+            
 			Delay.msDelay(200);
 			sensoren.resetGyro();
 			Delay.msDelay(500);
