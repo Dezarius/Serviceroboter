@@ -47,7 +47,7 @@ public class Sensoren {
 		this.touchValue = new float[touch.sampleSize()];
 	}
 	
-	public float[] getValues() {
+	public float[] getValues(){
 		this.gyro.fetchSample(this.tempValues, 0);
 		this.values[0] = this.tempValues[0];
 		this.color.fetchSample(this.tempValues, 0);
@@ -64,6 +64,3 @@ public class Sensoren {
 	}
 
 }
-
-
-//2880

@@ -1,5 +1,6 @@
 package serviceroboter;
 
+import lejos.utility.Delay;
 
 public class Hindernis{
 	
@@ -15,20 +16,24 @@ public class Hindernis{
 	
 	public boolean circumvent(float value){
 		if (!convert){
-			motoren.motor_links_ev3.setSpeed(200);
-			motoren.toEV3();
+			//motoren.toEV3();
+			motoren.motor_rechts.setPower(40);
+			motoren.motor_links.setPower(5);
 			this.convert = true;
-			motoren.motor_links_ev3.rotate(60);
-			motoren.motor_links_ev3.setSpeed(100);
-			motoren.motor_rechts_ev3.setSpeed(200);
-			motoren.motor_links_ev3.forward();
-			motoren.motor_rechts_ev3.forward();
+			motoren.motor_rechts.backward();
+			motoren.motor_links.forward();
+			Delay.msDelay(1300);
+			motoren.motor_rechts.stop();
+			motoren.senkeSensoren();
+			motoren.motor_links.setPower(25);
+			motoren.motor_rechts.setPower(45);
+			motoren.motor_links.forward();
+			motoren.motor_rechts.forward();
 			return false;
 			
 		} else if (value == 6){
-			motoren.motor_links_ev3.stop();
-			motoren.motor_rechts_ev3.stop();
-			motoren.toNXT();
+			motoren.stopNXT();
+			this.convert = false;
 			return true;
 			
 		}

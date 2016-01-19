@@ -2,14 +2,14 @@ package serviceroboter;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
-import lejos.hardware.motor.NXTMotor;
+import lejos.hardware.motor.UnregulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.utility.Delay;
 
 public class Motoren {
 	
-	private NXTMotor motor_links;
-	private NXTMotor motor_rechts;
+	public UnregulatedMotor motor_links;
+	public UnregulatedMotor motor_rechts;
 	public EV3LargeRegulatedMotor motor_links_ev3;
 	public EV3LargeRegulatedMotor motor_rechts_ev3;
 	private EV3MediumRegulatedMotor motor_sensor;
@@ -26,45 +26,71 @@ public class Motoren {
 	private boolean rightfirst = false;
 	
 	public Motoren(Sensoren sensoren) {
-		this.motor_links = new NXTMotor(MotorPort.A);
-		this.motor_rechts = new NXTMotor(MotorPort.D);
+		this.motor_links = new UnregulatedMotor(MotorPort.A);
+		this.motor_rechts = new UnregulatedMotor(MotorPort.D);
 		this.motor_sensor = new EV3MediumRegulatedMotor(MotorPort.B);
 		this.sensoren = sensoren;
 	}
 	
 	public void toEV3(){
-		this.close();
+		this.closeNXT();
 		this.motor_links_ev3 = new EV3LargeRegulatedMotor(MotorPort.A);
 		this.motor_rechts_ev3 = new EV3LargeRegulatedMotor(MotorPort.D);
 	}
 	
 	public void toNXT(){
-		this.close();
-		this.motor_links = new NXTMotor(MotorPort.A);
-		this.motor_rechts = new NXTMotor(MotorPort.D);
+		this.closeEV3();
+		this.motor_links = new UnregulatedMotor(MotorPort.A);
+		this.motor_rechts = new UnregulatedMotor(MotorPort.D);
 	}
 	
 	public void senkeSensoren(){
-		this.motor_sensor.rotate(85);
+		this.motor_sensor.rotate(-95);
+		this.motor_sensor.stop();
 	}
 	
 	public void hebeSensoren(){
-		this.motor_sensor.rotate(-85);
+		this.motor_sensor.setSpeed(100);
+		this.motor_sensor.rotate(95);
+		this.motor_sensor.stop();
 	}
 	
 	public void ranfahren(){
-		motor_links.setPower(10);
-		motor_rechts.setPower(10);
+		motor_links.setPower(30);
+		motor_rechts.setPower(30);
 		motor_links.forward();
 		motor_rechts.forward();
-		Delay.msDelay(100);
-		motor_links.stop();
-		motor_rechts.stop();
+		Delay.msDelay(1150);
+		this.stopNXT();
 	}
 	
-	public void close() {
+	public void ranfahrenEV3(){
+		motor_links_ev3.stop();
+		motor_rechts_ev3.stop();
+		motor_links_ev3.setSpeed(100);
+		motor_rechts_ev3.setSpeed(100);
+		motor_links_ev3.rotate(200, true);
+		motor_rechts_ev3.rotate(200);
+		//Delay.msDelay(1000);
+		
+	}
+	
+	public void ausrichtenNXT(){
+		motor_links.setPower(40);
+		motor_rechts.setPower(15);
+		motor_links.forward();
+		motor_rechts.forward();
+		
+	}
+	
+	public void closeNXT() {
 		this.motor_links.close();
 		this.motor_rechts.close();
+	}
+	
+	public void closeEV3() {
+		this.motor_links_ev3.close();
+		this.motor_rechts_ev3.close();
 	}
 	
 	public void forward() {
@@ -82,10 +108,14 @@ public class Motoren {
 		}
 	}
 	
-	public void stop() {
+	public void stopNXT() {
 		motor_links.stop();
 		motor_rechts.stop();
-		//System.out.println("Stop");
+	}
+	
+	public void stopEV3() {
+		motor_links_ev3.stop();
+		motor_rechts_ev3.stop();
 	}
 	
 	public void diviation() {
@@ -116,7 +146,7 @@ public class Motoren {
 		float values[] = sensoren.getValues();
 		if (values[0] >= 0 && !line && !firstTurnFindLine){
 			rightfirst = true;
-			stop();
+			stopNXT();
 			motor_links.setPower(35);
 			motor_rechts.setPower(35);
 			motor_links.forward();
@@ -125,7 +155,7 @@ public class Motoren {
 		}
 		else if (values[0] < 0 && !line && !firstTurnFindLine) {
 			rightfirst = false;
-			stop();
+			stopNXT();
 			motor_links.setPower(35);
 			motor_rechts.setPower(35);
 			motor_rechts.forward();
@@ -136,7 +166,7 @@ public class Motoren {
 			line = true;
 		} 
 		else if (line && !rightfirst && !secondTurnFindLine) {
-			stop();
+			stopNXT();
 			motor_links.setPower(35);
 			motor_rechts.setPower(35);
 			motor_links.forward();
@@ -144,7 +174,7 @@ public class Motoren {
 			secondTurnFindLine = true;
 		} 
 		else if (line && rightfirst && !secondTurnFindLine) {
-			stop();
+			stopNXT();
 			motor_links.setPower(35);
 			motor_rechts.setPower(35);
 			motor_rechts.forward();
@@ -153,11 +183,11 @@ public class Motoren {
 		} 
 		else {
 			if (rightfirst && values[0] > 60 && line) {
-				stop();
+				stopNXT();
 				System.out.println("ENDE");
 			}
 			if (!rightfirst && values[0] < -60 && line) {
-				stop();
+				stopNXT();
 				System.out.println("ENDE");
 			}
 		}
@@ -167,7 +197,7 @@ public class Motoren {
 	public void turnLeft() {
 		float values[] = sensoren.getValues();
 		if (!leftTurn) {
-			stop();
+			stopNXT();
 			
 			motor_links.setPower(25);
 			motor_rechts.setPower(45);
@@ -176,7 +206,7 @@ public class Motoren {
 			leftTurn = true;
 		}
 		else if(values[0] >= 90) {
-			stop();
+			stopNXT();
 			
 			Main.setKurve(-1);
 			Delay.msDelay(200);
@@ -193,7 +223,7 @@ public class Motoren {
 	public void turnRight() {
 		float values[] = sensoren.getValues();
 		if (!rightTurn) {
-			stop();
+			stopNXT();
 			
 			motor_links.setPower(45);
 			motor_rechts.setPower(25);
@@ -202,7 +232,7 @@ public class Motoren {
 			rightTurn = true;
 		}
 		else if(values[0] <= -90) {
-			stop();
+			stopNXT();
 			
 			Main.setKurve(-1);
             

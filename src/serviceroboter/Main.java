@@ -1,5 +1,8 @@
 package serviceroboter;
 
+import lejos.hardware.lcd.LCD;
+import lejos.utility.Delay;
+
 public class Main {
 	
 	static Motoren motoren;
@@ -9,6 +12,8 @@ public class Main {
 	
 	private static int farbe = 6;
 	private static boolean tonne = false;
+	private static boolean ausrichtung = false;
+	private static boolean test = false;
 	
 	private static boolean search = false;
 	private static int kurve = -1;
@@ -41,21 +46,50 @@ public class Main {
 				kurve = 2;
 			}
 			search = false;
-			motoren.stop();
+			motoren.stopNXT();
 		}
-		
-		if(values[2] <= 0.07f || tonne){
+
+		if(values[2] <= 0.07f || tonne ){
+			
 			if (!tonne){
-				motoren.stop();
+				motoren.stopNXT();
 				motoren.hebeSensoren();
 				motoren.ranfahren();
+				while ((values[0] >= 2 || values[0] <= -2) && values[3] == 0) {
+					if (values[0] >= 2) {
+						motoren.motor_links.setPower(20);
+						motoren.motor_rechts.setPower(20);
+						motoren.motor_links.forward();
+						motoren.motor_rechts.backward();
+					}
+					else if (values[0] <= -2) {
+						motoren.motor_links.setPower(20);
+						motoren.motor_rechts.setPower(20);
+						motoren.motor_links.backward();
+						motoren.motor_rechts.forward();
+					}
+					values = sensoren.getValues();
+				}
+				motoren.stopNXT();
+				Delay.msDelay(200);
+				values = sensoren.getValues();
+				motoren.stopNXT();
+				values = sensoren.getValues();
+				System.out.println("Farbe: " + values[1]);
 				color.addColor(values[1]);
 				tonne = true;
 				
 			}
-			if (hindernis.circumvent(values[1])){ 
+			else if (!ausrichtung && hindernis.circumvent(values[1])){
+				motoren.ausrichtenNXT();
+				ausrichtung = true;
+			}
+			else if (ausrichtung && values[0] <= 0) {
+				motoren.stopNXT();
 				tonne = false;
-				motoren.senkeSensoren();
+				ausrichtung = false;
+				search = false;
+				kurve = -1;
 			}
 		}
 		else if(kurve == 1){
