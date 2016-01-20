@@ -60,7 +60,7 @@ public class Motoren {
 		motor_rechts.setPower(30);
 		motor_links.forward();
 		motor_rechts.forward();
-		Delay.msDelay(1150);
+		Delay.msDelay(1100);
 		this.stopNXT();
 	}
 	
@@ -77,9 +77,10 @@ public class Motoren {
 	
 	public void ausrichtenNXT(){
 		motor_links.setPower(40);
-		motor_rechts.setPower(15);
+		motor_rechts.setPower(13);
 		motor_links.forward();
 		motor_rechts.forward();
+		forward = false;
 		
 	}
 	
@@ -101,7 +102,7 @@ public class Motoren {
 		firstTurnFindLine = false;
 		if (!forward) {
 			motor_links.setPower(65);
-			motor_rechts.setPower(67);
+			motor_rechts.setPower(66);
 			motor_links.forward();
 			motor_rechts.forward();
 			forward = true;
@@ -128,7 +129,7 @@ public class Motoren {
 		}
 		//Abweichung rechts
 		else if(values[0] <= -3 && !abweichung) {
-			motor_links.setPower(62);
+			motor_links.setPower(63);
 			motor_rechts.setPower(67);
 			abweichung = true;
 		}
@@ -205,14 +206,14 @@ public class Motoren {
 			motor_rechts.forward();
 			leftTurn = true;
 		}
-		else if(values[0] >= 90) {
+		else if(values[0] >= 89) {
 			stopNXT();
 			
 			Main.setKurve(-1);
 			Delay.msDelay(200);
 
 			sensoren.resetGyro();
-			Delay.msDelay(500);
+			Delay.msDelay(400);
 			line = false;
 			rightTurn = false;
 			secondTurnFindLine = false;
@@ -231,11 +232,11 @@ public class Motoren {
 			motor_rechts.forward();
 			rightTurn = true;
 		}
-		else if(values[0] <= -90) {
+		else if(values[0] <= -89) {
 			stopNXT();
 			
 			Main.setKurve(-1);
-            
+            System.out.println(values[0]);
 			Delay.msDelay(200);
 			sensoren.resetGyro();
 			Delay.msDelay(500);
