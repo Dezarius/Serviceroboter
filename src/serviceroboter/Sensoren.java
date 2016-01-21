@@ -17,13 +17,11 @@ public class Sensoren {
 	
 	SampleProvider gyro;
 	SampleProvider color;
+	SampleProvider colorRGB;
 	SampleProvider distance;
 	SampleProvider touch;
 	
-	float gyroValue[];
-	float colorValue[];
-	float distanceValue[];
-	float touchValue[];
+	float colorRGBValue[];
 	
 	float values[] = new float[4];
 	float tempValues[] = new float[1];
@@ -31,23 +29,22 @@ public class Sensoren {
 	public Sensoren() {
 		this.sensor1 = new EV3GyroSensor(SensorPort.S1);
 		this.gyro = sensor1.getMode("Angle");
-		this.gyroValue = new float[gyro.sampleSize()];
 		sensor1.reset();
 		
 		this.sensor2 = new EV3ColorSensor(SensorPort.S2);
 		this.color = sensor2.getColorIDMode();
-		this.colorValue = new float[color.sampleSize()];
+		this.colorRGB = sensor2.getRGBMode();
+		this.colorRGBValue = new float[colorRGB.sampleSize()];
 		
 		this.sensor3 = new EV3UltrasonicSensor(SensorPort.S3); 
 		this.distance = sensor3.getMode("Distance");
-		this.distanceValue = new float[distance.sampleSize()];
 		
 		this.sensor4 = new EV3TouchSensor(SensorPort.S4);
 		this.touch = sensor4.getMode("Touch");
-		this.touchValue = new float[touch.sampleSize()];
+
 	}
 	
-	public float[] getValues(){
+	public float[] getValues() {
 		this.gyro.fetchSample(this.tempValues, 0);
 		this.values[0] = this.tempValues[0];
 		this.color.fetchSample(this.tempValues, 0);
@@ -61,6 +58,28 @@ public class Sensoren {
 	
 	public void resetGyro() {
 		sensor1.reset();
+	}
+	
+	public String analyseRGB(){
+		this.colorRGB.fetchSample(this.colorRGBValue, 0);
+		
+		//RED
+		if(colorRGBValue[0] >= 70 && colorRGBValue[1] <= 15 && colorRGBValue[2] <= 15){
+			return "Rot";
+		}
+		//GREEN
+		else if(colorRGBValue[0] <= 15 && colorRGBValue[1] >= 60 && colorRGBValue[2] <= 15){
+			return "Gruen";
+		}
+		//YELLOW
+		else if(colorRGBValue[0] >= 35 && colorRGBValue[1] >= 35 && colorRGBValue[2] <= 10){
+			return "Gelb";
+		}
+		//OTHER
+		else 
+			return null;
+		
+		
 	}
 
 }

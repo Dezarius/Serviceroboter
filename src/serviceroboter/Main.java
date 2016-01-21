@@ -1,7 +1,6 @@
 package serviceroboter;
 
 import lejos.hardware.lcd.LCD;
-import lejos.utility.Delay;
 
 public class Main {
 	
@@ -47,14 +46,14 @@ public class Main {
 				kurve = 2;
 			}
 			search = false;
-			motoren.stopNXT();
+			motoren.stop();
 		}
 
 		LCD.drawString(String.valueOf(values[2]), 5, 1);
 		if(((values[2] <= 0.09f && values[2] != 0.0f) || tonne ) && kurve == -1){
 			
 			if (!tonne){
-				motoren.stopNXT();
+				motoren.stop();
 				tonne = true;
 			}
 			else if (test || hindernis.findTonne(values[2])) {
@@ -63,21 +62,16 @@ public class Main {
 				if (!ranfahren) {
 					motoren.hebeSensoren();
 					motoren.ranfahren();
-					motoren.stopNXT();
-					Delay.msDelay(200);
-					values = sensoren.getValues();
-					motoren.stopNXT();
-					values = sensoren.getValues();
 					System.out.println("Farbe: " + values[1]);
 					color.addColor(values[1]);
 					ranfahren = true;
 				}
 				else if (!ausrichtung && hindernis.circumvent(values[1])){
-					motoren.ausrichtenNXT();
+					motoren.ausrichten();
 					ausrichtung = true;
 				}
 				else if (ausrichtung && values[0] <= 0) {
-					motoren.stopNXT();
+					motoren.stop();
 					tonne = false;
 					ausrichtung = false;
 					search = false;

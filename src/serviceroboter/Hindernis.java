@@ -38,7 +38,7 @@ public class Hindernis{
 			return false;
 			
 		} else if (value == 6){
-			motoren.stopNXT();
+			motoren.stop();
 			this.convert = false;
 			return true;
 			
@@ -64,13 +64,13 @@ public class Hindernis{
 		}
 		else  if (newDist > oldDist){
 			if (rightDirection) {
-				motoren.stopNXT();
+				motoren.stop();
 				first = false;
 				rightDirection = false;
 				return true;
 			}
 			else {
-				motoren.stopNXT();
+				motoren.stop();
 				motoren.motor_rechts.setPower(15);
 				motoren.motor_links.setPower(15);
 				motoren.motor_rechts.forward();
