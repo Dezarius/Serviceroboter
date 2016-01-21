@@ -1,5 +1,6 @@
 package serviceroboter;
 
+import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
 
 public class Main {
@@ -14,6 +15,8 @@ public class Main {
 	private static boolean ausrichtung = false;
 	private static boolean ranfahren = false;
 	private static boolean test = false;
+	private static boolean start = false;
+	private static String tonnenFarbe = null;
 	
 	private static boolean search = false;
 	private static int kurve = -1;
@@ -24,9 +27,28 @@ public class Main {
 		motoren = new Motoren(sensoren);
 		hindernis = new Hindernis(motoren,sensoren);
 		color = new Farben();
+		float values[];
+		
+		values = sensoren.getValues();
+		
+		if (values[1] == 6){
+			System.out.println("Bereit zum Starten :)");
+			Sound.twoBeeps();
+		}else {
+			System.out.println("Keine weisse Linie erkannt, trotzdem starten?");
+			Sound.beep();
+		}
+		
+		while (!start){
+			values = sensoren.getValues();
+			if (values[3] == 1){
+				LCD.clear();
+				start = true;
+			}
+		}
 		
 		while (true) {
-			float values[] = sensoren.getValues();
+			values = sensoren.getValues();
 			loop(values);
 			if(values[3] == 1){
 				break;
@@ -61,8 +83,8 @@ public class Main {
 				
 				if (!ranfahren) {
 					motoren.hebeSensoren();
-					motoren.ranfahren();
-					System.out.println("Farbe: " + values[1]);
+					tonnenFarbe = motoren.ranfahren();
+					System.out.println("Farbe: " + tonnenFarbe);
 					color.addColor(values[1]);
 					ranfahren = true;
 				}
