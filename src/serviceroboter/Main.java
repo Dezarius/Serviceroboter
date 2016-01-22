@@ -2,6 +2,7 @@ package serviceroboter;
 
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
+import lejos.utility.Delay;
 
 public class Main {
 	
@@ -10,13 +11,13 @@ public class Main {
 	static Hindernis hindernis;
 	static Farben color;
 	
-	private static int farbe = 6;
+	private static int farbe = 13;
 	private static boolean tonne = false;
 	private static boolean ausrichtung = false;
 	private static boolean ranfahren = false;
-	private static boolean test = false;
 	private static boolean start = false;
 	private static String tonnenFarbe = null;
+	private static boolean foundTonne = false;
 	
 	private static boolean search = false;
 	private static int kurve = -1;
@@ -31,7 +32,7 @@ public class Main {
 		
 		values = sensoren.getValues();
 		
-		if (values[1] == 6){
+		if (values[1] == farbe){
 			System.out.println("Bereit zum Starten :)");
 			Sound.twoBeeps();
 		}else {
@@ -44,6 +45,7 @@ public class Main {
 			if (values[3] == 1){
 				LCD.clear();
 				start = true;
+				Delay.msDelay(1000);
 			}
 		}
 		
@@ -78,13 +80,13 @@ public class Main {
 				motoren.stop();
 				tonne = true;
 			}
-			else if (test || hindernis.findTonne(values[2])) {
-				test = true;
+			else if (foundTonne || hindernis.findTonne(values[2])) {
+				foundTonne = true;
 				
 				if (!ranfahren) {
 					motoren.hebeSensoren();
 					tonnenFarbe = motoren.ranfahren();
-					System.out.println("Farbe: " + tonnenFarbe);
+					//System.out.println("Farbe: " + tonnenFarbe);
 					color.addColor(values[1]);
 					ranfahren = true;
 				}
@@ -99,7 +101,7 @@ public class Main {
 					search = false;
 					kurve = -1;
 					ranfahren = false;
-					test = false;
+					foundTonne = false;
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 package serviceroboter;
 
+import lejos.hardware.lcd.LCD;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3GyroSensor;
@@ -62,17 +63,20 @@ public class Sensoren {
 	
 	public String analyseRGB(){
 		this.colorRGB.fetchSample(this.colorRGBValue, 0);
+		LCD.drawString(String.valueOf(colorRGBValue[0]), 1, 1);
+		LCD.drawString(String.valueOf(colorRGBValue[1]), 1, 2);
+		LCD.drawString(String.valueOf(colorRGBValue[2]), 1, 3);
 		
 		//RED
-		if(colorRGBValue[0] >= 70 && colorRGBValue[1] <= 15 && colorRGBValue[2] <= 15){
+		if((colorRGBValue[0]*1020) >= 70 && (colorRGBValue[1]*1020) <= 15 && (colorRGBValue[2]*1020) <= 15){
 			return "Rot";
 		}
 		//GREEN
-		else if(colorRGBValue[0] <= 15 && colorRGBValue[1] >= 60 && colorRGBValue[2] <= 15){
+		else if((colorRGBValue[0]*1020) <= 15 && (colorRGBValue[1]*1020) >= 55 && (colorRGBValue[2]*1020) <= 20){
 			return "Gruen";
 		}
 		//YELLOW
-		else if(colorRGBValue[0] >= 35 && colorRGBValue[1] >= 35 && colorRGBValue[2] <= 10){
+		else if((colorRGBValue[0]*1020) >= 35 && (colorRGBValue[1]*1020) >= 35 && (colorRGBValue[2]*1020) <= 10){
 			return "Gelb";
 		}
 		//OTHER

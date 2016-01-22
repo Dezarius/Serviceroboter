@@ -43,7 +43,7 @@ public class Motoren {
 	public String ranfahren(){
 		String farbe = null;
 		this.motor_links.setPower(20);
-		this.motor_rechts.setPower(21);
+		this.motor_rechts.setPower(20);
 		farbe = this.sensoren.analyseRGB();
 		while( farbe == null && this.sensoren.getValues()[3] == 0){
 			this.motor_links.forward();
