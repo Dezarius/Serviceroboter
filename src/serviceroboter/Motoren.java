@@ -1,5 +1,7 @@
 package serviceroboter;
 
+import lejos.hardware.Sound;
+import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.motor.UnregulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -43,13 +45,14 @@ public class Motoren {
 	public String ranfahren(){
 		String farbe = null;
 		this.motor_links.setPower(20);
-		this.motor_rechts.setPower(20);
+		this.motor_rechts.setPower(19);
 		farbe = this.sensoren.analyseRGB();
 		while( farbe == null && this.sensoren.getValues()[3] == 0){
 			this.motor_links.forward();
 			this.motor_rechts.forward();
 			farbe = this.sensoren.analyseRGB();
 		}
+		LCD.drawString("Farbe: " + farbe, 1, 5);
 		this.stop();
 		return farbe;
 	}
@@ -148,10 +151,12 @@ public class Motoren {
 		} 
 		else {
 			if (this.rightfirst && values[0] > 60 && this.line) {
+				//Sound.twoBeeps();
 				this.stop();
 				System.out.println("ENDE");
 			}
 			if (!this.rightfirst && values[0] < -60 && this.line) {
+				//Sound.twoBeeps();
 				this.stop();
 				System.out.println("ENDE");
 			}
@@ -164,7 +169,7 @@ public class Motoren {
 		if (!this.leftTurn) {
 			this.stop();
 			
-			this.motor_links.setPower(25);
+			this.motor_links.setPower(22);
 			this.motor_rechts.setPower(45);
 			this.motor_links.forward();
 			this.motor_rechts.forward();
@@ -191,7 +196,7 @@ public class Motoren {
 			this.stop();
 			
 			this.motor_links.setPower(45);
-			this.motor_rechts.setPower(25);
+			this.motor_rechts.setPower(22);
 			this.motor_links.forward();
 			this.motor_rechts.forward();
 			this.rightTurn = true;

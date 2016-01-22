@@ -32,9 +32,9 @@ public class Hindernis{
 			motoren.motor_rechts.setPower(25);
 			motoren.motor_links.forward();
 			motoren.motor_rechts.forward();
-			Delay.msDelay(600);
-			motoren.motor_links.setPower(25);
-			motoren.motor_rechts.setPower(45);
+			Delay.msDelay(800);
+			motoren.motor_links.setPower(30);
+			motoren.motor_rechts.setPower(55);
 			return false;
 			
 		} else if (value == 6){
@@ -51,8 +51,8 @@ public class Hindernis{
 		newDist = value;
 		
 		if (!first) {
-			motoren.motor_rechts.setPower(15);
-			motoren.motor_links.setPower(15);
+			motoren.motor_rechts.setPower(10);
+			motoren.motor_links.setPower(10);
 			motoren.motor_rechts.backward();
 			motoren.motor_links.forward();
 			first = true;
@@ -71,8 +71,8 @@ public class Hindernis{
 			}
 			else {
 				motoren.stop();
-				motoren.motor_rechts.setPower(15);
-				motoren.motor_links.setPower(15);
+				motoren.motor_rechts.setPower(10);
+				motoren.motor_links.setPower(10);
 				motoren.motor_rechts.forward();
 				motoren.motor_links.backward();
 				oldDist = newDist;

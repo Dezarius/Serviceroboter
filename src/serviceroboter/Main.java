@@ -11,7 +11,7 @@ public class Main {
 	static Hindernis hindernis;
 	static Farben color;
 	
-	private static int farbe = 13;
+	private static int farbe = 6;
 	private static boolean tonne = false;
 	private static boolean ausrichtung = false;
 	private static boolean ranfahren = false;
@@ -43,9 +43,14 @@ public class Main {
 		while (!start){
 			values = sensoren.getValues();
 			if (values[3] == 1){
+				//HArdcode clearen
+				for(int i =0 ; i < 8;i++){
+					LCD.drawString("                           ", 1, i);
+				}
 				LCD.clear();
+				LCD.refresh();
 				start = true;
-				Delay.msDelay(1000);
+				Delay.msDelay(500);
 			}
 		}
 		
@@ -87,7 +92,7 @@ public class Main {
 					motoren.hebeSensoren();
 					tonnenFarbe = motoren.ranfahren();
 					//System.out.println("Farbe: " + tonnenFarbe);
-					color.addColor(values[1]);
+					color.addColor(tonnenFarbe);
 					ranfahren = true;
 				}
 				else if (!ausrichtung && hindernis.circumvent(values[1])){
