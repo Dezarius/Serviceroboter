@@ -1,6 +1,5 @@
 package serviceroboter;
 
-import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.motor.UnregulatedMotor;
@@ -49,8 +48,10 @@ public class Motoren {
 		farbe = this.sensoren.analyseRGB();
 		float[] values = this.sensoren.getValues();
 		float gyro = values[3];
+		final long timeStart = System.currentTimeMillis();
+		long timeEnd = timeStart;
 		
-		while(farbe == null && values[3] == 0){
+		while(farbe == null && values[3] == 0 && timeStart-timeEnd >= 3000){
 			this.motor_links.forward();
 			this.motor_rechts.forward();
 			if (values[3] >= gyro + 1) {
@@ -68,6 +69,8 @@ public class Motoren {
 			
 			farbe = this.sensoren.analyseRGB();
 			values = this.sensoren.getValues();
+			
+			timeEnd=System.currentTimeMillis();
 		}
 		LCD.drawString("Farbe: " + farbe, 1, 5);
 		this.stop();
