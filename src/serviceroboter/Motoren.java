@@ -45,12 +45,29 @@ public class Motoren {
 	public String ranfahren(){
 		String farbe = null;
 		this.motor_links.setPower(20);
-		this.motor_rechts.setPower(19);
+		this.motor_rechts.setPower(20);
 		farbe = this.sensoren.analyseRGB();
-		while( farbe == null && this.sensoren.getValues()[3] == 0){
+		float[] values = this.sensoren.getValues();
+		float gyro = values[3];
+		
+		while(farbe == null && values[3] == 0){
 			this.motor_links.forward();
 			this.motor_rechts.forward();
+			if (values[3] >= gyro + 1) {
+				this.motor_links.setPower(20);
+				this.motor_rechts.setPower(19);
+			}
+			else if (values[3] <= gyro - 1) {
+				this.motor_links.setPower(19);
+				this.motor_rechts.setPower(20);
+			}
+			else if (values[3] == gyro) {
+				this.motor_links.setPower(20);
+				this.motor_rechts.setPower(20);
+			}
+			
 			farbe = this.sensoren.analyseRGB();
+			values = this.sensoren.getValues();
 		}
 		LCD.drawString("Farbe: " + farbe, 1, 5);
 		this.stop();
@@ -180,7 +197,6 @@ public class Motoren {
 			
 			Main.setKurve(-1);
 			Delay.msDelay(200);
-
 			this.sensoren.resetGyro();
 			Delay.msDelay(400);
 			this.line = false;
@@ -205,7 +221,6 @@ public class Motoren {
 			stop();
 			
 			Main.setKurve(-1);
-            System.out.println(values[0]);
 			Delay.msDelay(200);
 			this.sensoren.resetGyro();
 			Delay.msDelay(500);
