@@ -63,21 +63,18 @@ public class Sensoren {
 	
 	public String analyseRGB(){
 		this.colorRGB.fetchSample(this.colorRGBValue, 0);
-		LCD.drawString(String.valueOf(colorRGBValue[0]), 1, 2);
-		LCD.drawString(String.valueOf(colorRGBValue[1]), 1, 3);
-		LCD.drawString(String.valueOf(colorRGBValue[2]), 1, 4);
 		
 		//RED
 		if((colorRGBValue[0]*1020) >= 70 && (colorRGBValue[1]*1020) <= 15 && (colorRGBValue[2]*1020) <= 15){
 			return "Rot";
 		}
+		//YELLOW
+		else if((colorRGBValue[0]*1020) >= 30 && (colorRGBValue[1]*1020) >= 30 && (colorRGBValue[2]*1020) <= 15){
+			return "Gelb";
+		}
 		//GREEN
 		else if((colorRGBValue[0]*1020) <= 15 && (colorRGBValue[1]*1020) >= 20 && (colorRGBValue[2]*1020) <= 20){
 			return "Gruen";
-		}
-		//YELLOW
-		else if((colorRGBValue[0]*1020) >= 30 && (colorRGBValue[1]*1020) >= 30 && (colorRGBValue[2]*1020) <= 10){
-			return "Gelb";
 		}
 		//OTHER
 		else 

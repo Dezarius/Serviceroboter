@@ -31,8 +31,8 @@ public class Motoren {
 	}
 	
 	public void senkeSensoren(){
-		this.motor_sensor.rotate(-95);
-		this.motor_sensor.stop();
+		this.motor_sensor.rotate(-95, true);
+		//this.motor_sensor.stop();
 	}
 	
 	public void hebeSensoren(){
@@ -43,26 +43,26 @@ public class Motoren {
 	
 	public String ranfahren(){
 		String farbe = null;
-		this.motor_links.setPower(20);
-		this.motor_rechts.setPower(20);
+		this.motor_links.setPower(21);
+		this.motor_rechts.setPower(21);
 		farbe = this.sensoren.analyseRGB();
 		float[] values = this.sensoren.getValues();
-		float gyro = values[3];
+		float gyro = values[0];
 		final long timeStart = System.currentTimeMillis();
 		long timeEnd = timeStart;
 		
-		while(farbe == null && values[3] == 0 && timeStart-timeEnd >= 3000){
+		while(farbe == null && values[3] == 0 && timeEnd-timeStart <= 2800){
 			this.motor_links.forward();
 			this.motor_rechts.forward();
-			if (values[3] >= gyro + 1) {
+			if (values[0] > gyro) {
 				this.motor_links.setPower(20);
-				this.motor_rechts.setPower(19);
+				this.motor_rechts.setPower(16);
 			}
-			else if (values[3] <= gyro - 1) {
-				this.motor_links.setPower(19);
+			else if (values[0] < gyro) {
+				this.motor_links.setPower(16);
 				this.motor_rechts.setPower(20);
 			}
-			else if (values[3] == gyro) {
+			else if (values[0] == gyro) {
 				this.motor_links.setPower(20);
 				this.motor_rechts.setPower(20);
 			}
@@ -72,18 +72,24 @@ public class Motoren {
 			
 			timeEnd=System.currentTimeMillis();
 		}
-		LCD.drawString("Farbe: " + farbe, 1, 5);
+		System.out.println("Farbe: " + farbe);
+		//LCD.drawString("Farbe: " + farbe, 1, 8);
 		this.stop();
 		return farbe;
 	}
 	
 	public void ausrichten(){
 		this.motor_links.setPower(40);
-		this.motor_rechts.setPower(13);
+		this.motor_rechts.setPower(10);
 		this.motor_links.forward();
 		this.motor_rechts.forward();
 		this.forward = false;
 		
+	}
+	
+	public void setPower(int speed){
+		this.motor_links.setPower(speed);
+		this.motor_rechts.setPower(speed);
 	}
 	
 	public void forward() {
@@ -93,8 +99,8 @@ public class Motoren {
 		this.secondTurnFindLine = false;
 		this.firstTurnFindLine = false;
 		if (!this.forward) {
-			this.motor_links.setPower(65);
-			this.motor_rechts.setPower(66);
+			this.motor_links.setPower(60);
+			this.motor_rechts.setPower(61);
 			this.motor_links.forward();
 			this.motor_rechts.forward();
 			this.forward = true;
@@ -110,19 +116,19 @@ public class Motoren {
 		float values[] = this.sensoren.getValues();
 		//Abweichung links
 		if(values[0] >= 3 && !this.abweichung) {
-			this.motor_links.setPower(65);
-			this.motor_rechts.setPower(64);
+			this.motor_links.setPower(60);
+			this.motor_rechts.setPower(59);
 			this.abweichung = true;
 		}
 		//Abweichung rechts
 		else if(values[0] <= -3 && !this.abweichung) {
-			this.motor_links.setPower(63);
-			this.motor_rechts.setPower(67);
+			this.motor_links.setPower(58);
+			this.motor_rechts.setPower(61);
 			this.abweichung = true;
 		}
 		else if(values[0] <= 0.5f && values[0] >= -0.5f && this.abweichung){
-			this.motor_links.setPower(65);
-			this.motor_rechts.setPower(67);
+			this.motor_links.setPower(60);
+			this.motor_rechts.setPower(61);
 			this.abweichung = false;
 		}
 	}
@@ -135,8 +141,8 @@ public class Motoren {
 		if (values[0] >= 0 && !this.line && !this.firstTurnFindLine){
 			this.rightfirst = true;
 			this.stop();
-			this.motor_links.setPower(35);
-			this.motor_rechts.setPower(35);
+			this.motor_links.setPower(30);
+			this.motor_rechts.setPower(30);
 			this.motor_links.forward();
 			this.motor_rechts.backward();
 			this.firstTurnFindLine = true;
@@ -144,8 +150,8 @@ public class Motoren {
 		else if (values[0] < 0 && !this.line && !this.firstTurnFindLine) {
 			this.rightfirst = false;
 			stop();
-			this.motor_links.setPower(35);
-			this.motor_rechts.setPower(35);
+			this.motor_links.setPower(30);
+			this.motor_rechts.setPower(30);
 			this.motor_rechts.forward();
 			this.motor_links.backward();
 			this.firstTurnFindLine = true;
@@ -155,16 +161,16 @@ public class Motoren {
 		} 
 		else if (this.line && !this.rightfirst && !this.secondTurnFindLine) {
 			this.stop();
-			this.motor_links.setPower(35);
-			this.motor_rechts.setPower(35);
+			this.motor_links.setPower(30);
+			this.motor_rechts.setPower(30);
 			this.motor_links.forward();
 			this.motor_rechts.backward();
 			this.secondTurnFindLine = true;
 		} 
 		else if (this.line && this.rightfirst && !this.secondTurnFindLine) {
 			this.stop();
-			this.motor_links.setPower(35);
-			this.motor_rechts.setPower(35);
+			this.motor_links.setPower(30);
+			this.motor_rechts.setPower(30);
 			this.motor_rechts.forward();
 			this.motor_links.backward();
 			this.secondTurnFindLine = true;
@@ -190,18 +196,23 @@ public class Motoren {
 			this.stop();
 			
 			this.motor_links.setPower(22);
-			this.motor_rechts.setPower(45);
+			this.motor_rechts.setPower(48);
 			this.motor_links.forward();
 			this.motor_rechts.forward();
 			this.leftTurn = true;
 		}
-		else if(values[0] >= 89) {
+		else if(values[0] >= 90) {
 			this.stop();
 			
 			Main.setKurve(-1);
 			Delay.msDelay(200);
 			this.sensoren.resetGyro();
-			Delay.msDelay(400);
+			this.motor_links.setPower(25);
+			this.motor_rechts.setPower(25);
+			this.motor_links.backward();
+			this.motor_rechts.backward();
+			Delay.msDelay(1000);
+			this.stop();
 			this.line = false;
 			this.rightTurn = false;
 			this.secondTurnFindLine = false;
@@ -214,19 +225,24 @@ public class Motoren {
 		if (!this.rightTurn) {
 			this.stop();
 			
-			this.motor_links.setPower(45);
-			this.motor_rechts.setPower(22);
+			this.motor_links.setPower(48);
+			this.motor_rechts.setPower(20);
 			this.motor_links.forward();
 			this.motor_rechts.forward();
 			this.rightTurn = true;
 		}
-		else if(values[0] <= -89) {
+		else if(values[0] <= -90) {
 			stop();
 			
 			Main.setKurve(-1);
 			Delay.msDelay(200);
 			this.sensoren.resetGyro();
-			Delay.msDelay(500);
+			this.motor_links.setPower(25);
+			this.motor_rechts.setPower(25);
+			this.motor_links.backward();
+			this.motor_rechts.backward();
+			Delay.msDelay(1000);
+			this.stop();
 			this.line = false;
 			this.rightTurn = false;
 			this.secondTurnFindLine = false;

@@ -7,12 +7,14 @@ public class Hindernis{
 	Motoren motoren;
 	
 	float[] values;
-	float oldDist = 0;
-	float newDist = 0;
+	float dist = 0;
+	float smallGyro = 0;
 	
 	boolean convert = false;
 	boolean first = false;
 	boolean rightDirection = false;
+	boolean finish = false;
+	float gyro = 0;
 	
 	public Hindernis(Motoren motoren, Sensoren sensoren){
 		this.motoren = motoren;
@@ -33,7 +35,7 @@ public class Hindernis{
 			motoren.motor_links.forward();
 			motoren.motor_rechts.forward();
 			Delay.msDelay(800);
-			motoren.motor_links.setPower(30);
+			motoren.motor_links.setPower(28);
 			motoren.motor_rechts.setPower(55);
 			return false;
 			
@@ -47,12 +49,56 @@ public class Hindernis{
 
 	}
 	
-	public boolean findTonne(float value) {
-		newDist = value;
+	public boolean findTonne(float[] value) {
+		if (!first){
+			gyro = value[0];
+			smallGyro = value[0];
+			dist = value[2];
+			motoren.motor_rechts.setPower(20);
+			motoren.motor_links.setPower(20);
+			motoren.motor_rechts.backward();
+			motoren.motor_links.forward();
+			first = true;
+		}
+		else if(value[2] < dist){
+			//System.out.println(dist + " -> " + value[2]);
+			dist = value[2];
+			smallGyro = value[0];
+		}
+		else if (finish){
+			if (smallGyro < value[0]){
+				motoren.motor_rechts.backward();
+				motoren.motor_links.forward();
+			}
+			else if (smallGyro > value[0]){
+				motoren.motor_links.backward();
+				motoren.motor_rechts.forward();
+			}
+			else if (smallGyro == value[0]){
+				motoren.stop();
+				finish = false;
+				first = false;
+				return true;
+			}
+		}
+		else if (value[0] <= gyro - 10){
+			motoren.stop();
+			motoren.motor_links.backward();
+			motoren.motor_rechts.forward();
+			
+		}
+		else if (value[0] >= gyro + 10){
+			motoren.stop();
+			finish = true;
+		}
+
 		
-		if (!first) {
-			motoren.motor_rechts.setPower(10);
-			motoren.motor_links.setPower(10);
+		
+		
+		
+		/*if (!first) {
+			motoren.motor_rechts.setPower(15);
+			motoren.motor_links.setPower(15);
 			motoren.motor_rechts.backward();
 			motoren.motor_links.forward();
 			first = true;
@@ -71,14 +117,15 @@ public class Hindernis{
 			}
 			else {
 				motoren.stop();
-				motoren.motor_rechts.setPower(10);
-				motoren.motor_links.setPower(10);
+				motoren.motor_rechts.setPower(15);
+				motoren.motor_links.setPower(15);
 				motoren.motor_rechts.forward();
 				motoren.motor_links.backward();
 				oldDist = newDist;
 			}
 		}
 		
+		return false;*/
 		return false;
 	}
 }
