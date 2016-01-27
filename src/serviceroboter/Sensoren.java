@@ -44,7 +44,11 @@ public class Sensoren {
 		this.touch = sensor4.getMode("Touch");
 
 	}
-	
+	/**
+	 * Ausgabe der aktualisierten Sensorenwerte
+	 * @param
+	 * @return Array mit Sensorenwerten
+	 */
 	public float[] getValues() {
 		this.gyro.fetchSample(this.tempValues, 0);
 		this.values[0] = this.tempValues[0];
@@ -56,11 +60,20 @@ public class Sensoren {
 		this.values[3] = this.tempValues[0];
 		return values;
 	}
-	
+	/**
+	 * Zurücksetzen des Gyros nach einer Kurve 
+	 * @param
+	 * @return 
+	 */
 	public void resetGyro() {
 		sensor1.reset();
 	}
 	
+	/**
+	 * Erkennt eine Farbe auf Grund der RGB Werte
+	 * @param
+	 * @return Erkannte Farbe 
+	 */
 	public String analyseRGB(){
 		this.colorRGB.fetchSample(this.colorRGBValue, 0);
 		

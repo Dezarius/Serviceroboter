@@ -24,6 +24,12 @@ public class Main {
 	private static int kurve = -1;
 	private static float oldDist;
 
+	/**
+	 * Setzt Roboter in Betrieb wenn der Button gedrückt wurde und
+	 * beendet ihn beim erneuten Drücken
+	 * @param - 
+	 * @return 
+	 */
 	public static void main(String[] args) {
 		
 		sensoren = new Sensoren();
@@ -59,7 +65,12 @@ public class Main {
 			}
 		}
 	}
-
+	
+	/**
+	 * Durchgehende loop die Linie und Kurve unterscheidet
+	 * @param Farbwerte
+	 * @return 
+	 */
 	private static void loop(float values[]) {
 		
 		if(values[1] == farbe && search){
@@ -134,10 +145,21 @@ public class Main {
 		
 	}
 	
+	/**
+	 * Setzt i wenn eine Kurve erkannt wurde
+	 * @param i
+	 * @return 
+	 */
 	public static void setKurve(int i) {
 		kurve = i;
 	}
 	
+	/**
+	 * Ausgleichen nach der Kurve damit er wieder auf der Linie steht 
+	 * mit Hilfe der Räder
+	 * @param  Gyrosensorwere
+	 * @return 
+	 */
 	public static void ausgleich(float[] values) {
 		while ((values[0] >= 2 || values[0] <= -2) && values[3] == 0) {
 			if (values[0] >= 2) {
