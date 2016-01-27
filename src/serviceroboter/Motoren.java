@@ -29,18 +29,30 @@ public class Motoren {
 		this.motor_sensor = new EV3MediumRegulatedMotor(MotorPort.B);
 		this.sensoren = sensoren;
 	}
-	
+	/**
+	 * Senkt den Farbsensor und Ultraschallsensor durch drehen des Motors ab
+	 * @param
+	 * @return 
+	 */
 	public void senkeSensoren(){
 		this.motor_sensor.rotate(-95, true);
 		//this.motor_sensor.stop();
 	}
-	
+	/**
+	 * Hebt den Farbsensor und Ultraschallsensor durch drehen des Motors ab
+	 * @param
+	 * @return 
+	 */
 	public void hebeSensoren(){
 		this.motor_sensor.setSpeed(100);
 		this.motor_sensor.rotate(95);
 		this.motor_sensor.stop();
 	}
-	
+	/**
+	 * Nach erkennen der Tonne wird näher an die Tonne herangefahren
+	 * @param
+	 * @return Erkannte Farbe 
+	 */
 	public String ranfahren(){
 		String farbe = null;
 		this.motor_links.setPower(21);
