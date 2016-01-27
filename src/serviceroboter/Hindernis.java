@@ -19,7 +19,11 @@ public class Hindernis{
 	public Hindernis(Motoren motoren, Sensoren sensoren){
 		this.motoren = motoren;
 	}
-	
+	/**
+	 * Umfährt die Tonne
+	 * @param Farbe der Linie
+	 * @return 
+	 */
 	public boolean circumvent(float value){
 		if (!convert){
 			motoren.motor_rechts.setPower(40);
@@ -48,7 +52,11 @@ public class Hindernis{
 		return false;
 
 	}
-	
+	/**
+	 * Versucht gerade vor der Tonne zu stehen
+	 * @param Gyrowerte
+	 * @return 
+	 */
 	public boolean findTonne(float[] value) {
 		if (!first){
 			gyro = value[0];
