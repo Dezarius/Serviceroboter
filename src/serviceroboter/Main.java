@@ -63,10 +63,10 @@ public class Main {
 	private static void loop(float values[]) {
 		
 		if(values[1] == farbe && search){
-			if(values[0] > 25){
+			if(values[0] > 22){
 				kurve = 1;
 			}
-			else if(values[0] < -25){
+			else if(values[0] < -22){
 				kurve = 2;
 			}
 			search = false;
@@ -84,7 +84,7 @@ public class Main {
 				motoren.motor_links.forward();
 				motoren.motor_rechts.forward();
 			}
-			else if((values[2] <= 0.05f && values[2] != 0.0f || oldDist + 0.03 < values[2]) && !iter){
+			else if((values[2] <= 0.03f && values[2] != 0.0f || oldDist + 0.03 < values[2]) && !iter){
 				motoren.stop();
 				iter = true;
 			}
