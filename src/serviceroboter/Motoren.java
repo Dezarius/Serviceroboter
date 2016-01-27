@@ -89,7 +89,11 @@ public class Motoren {
 		this.stop();
 		return farbe;
 	}
-	
+	/**
+	 * Richtet den Roboter aus
+	 * @param
+	 * @return 
+	 */
 	public void ausrichten(){
 		this.motor_links.setPower(40);
 		this.motor_rechts.setPower(10);
@@ -98,12 +102,20 @@ public class Motoren {
 		this.forward = false;
 		
 	}
-	
+	/**
+	 * Setzt die Geschwindigkeit von beiden Motoren
+	 * @param Die zu fahrende Geschwindigkeit
+	 * @return 
+	 */
 	public void setPower(int speed){
 		this.motor_links.setPower(speed);
 		this.motor_rechts.setPower(speed);
 	}
-	
+	/**
+	 * Lässt Roboter geradeaus fahren
+	 * @param
+	 * @return 
+	 */
 	public void forward() {
 		this.line = false;
 		this.rightTurn = false;
@@ -118,12 +130,20 @@ public class Motoren {
 			this.forward = true;
 		}
 	}
-	
+	/**
+	 * Stopt die Motoren
+	 * @param
+	 * @return 
+	 */
 	public void stop() {
 		this.motor_links.stop();
 		this.motor_rechts.stop();
 	}
-	
+	/**
+	 * Gleicht schräge Fahrweise auf der Linie aus
+	 * @param
+	 * @return 
+	 */
 	public void diviation() {
 		float values[] = this.sensoren.getValues();
 		//Abweichung links
@@ -144,7 +164,11 @@ public class Motoren {
 			this.abweichung = false;
 		}
 	}
-	
+	/**
+	 * Sucht die Linie nach einer Kurve
+	 * @param
+	 * @return 
+	 */
 	public void findLine(){
 		this.forward = false;
 		this.abweichung = false;
@@ -201,7 +225,11 @@ public class Motoren {
 		}
 		
 	}
-	
+	/**
+	 * Macht eine Linksdrehung
+	 * @param
+	 * @return 
+	 */
 	public void turnLeft() {
 		float values[] = this.sensoren.getValues();
 		if (!this.leftTurn) {
@@ -231,7 +259,11 @@ public class Motoren {
 			this.firstTurnFindLine = false;
 		}
 	}
-	
+	/**
+	 * Macht eine Rechtsdrehung
+	 * @param
+	 * @return 
+	 */
 	public void turnRight() {
 		float values[] = this.sensoren.getValues();
 		if (!this.rightTurn) {
