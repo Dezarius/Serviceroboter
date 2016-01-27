@@ -14,6 +14,8 @@ public class Hindernis{
 	boolean first = false;
 	boolean rightDirection = false;
 	boolean finish = false;
+	long startTime = 0;
+	long endTime = 0;
 	float gyro = 0;
 	
 	public Hindernis(Motoren motoren, Sensoren sensoren){
@@ -58,15 +60,20 @@ public class Hindernis{
 	 * @return 
 	 */
 	public boolean findTonne(float[] value) {
+		endTime = System.currentTimeMillis();
+		
 		if (!first){
+			startTime = System.currentTimeMillis();
 			gyro = value[0];
 			smallGyro = value[0];
 			dist = value[2];
-			motoren.motor_rechts.setPower(20);
-			motoren.motor_links.setPower(20);
+			motoren.motor_rechts.setPower(25);
+			motoren.motor_links.setPower(25);
 			motoren.motor_rechts.backward();
 			motoren.motor_links.forward();
 			first = true;
+		}else if (endTime - startTime >= 5000){
+			return true;
 		}
 		else if(value[2] < dist){
 			//System.out.println(dist + " -> " + value[2]);
