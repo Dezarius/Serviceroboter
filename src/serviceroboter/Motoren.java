@@ -51,7 +51,7 @@ public class Motoren {
 		final long timeStart = System.currentTimeMillis();
 		long timeEnd = timeStart;
 		
-		while(farbe == null && values[3] == 0 && timeEnd-timeStart <= 2800){
+		while(farbe == null && values[3] == 0 && timeEnd-timeStart <= 2500){
 			this.motor_links.forward();
 			this.motor_rechts.forward();
 			if (values[0] > gyro) {
@@ -179,12 +179,12 @@ public class Motoren {
 			if (this.rightfirst && values[0] > 60 && this.line) {
 				//Sound.twoBeeps();
 				this.stop();
-				System.out.println("ENDE");
+				//System.out.println("ENDE");
 			}
 			if (!this.rightfirst && values[0] < -60 && this.line) {
 				//Sound.twoBeeps();
 				this.stop();
-				System.out.println("ENDE");
+				//System.out.println("ENDE");
 			}
 		}
 		

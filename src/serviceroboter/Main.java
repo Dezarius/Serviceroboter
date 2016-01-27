@@ -35,22 +35,17 @@ public class Main {
 		values = sensoren.getValues();
 		
 		if (values[1] == farbe){
-			System.out.println("Bereit zum Starten :)");
+			LCD.drawString("Bereit)", 1, 1);
 			Sound.twoBeeps();
 		}else {
-			System.out.println("Keine weisse Linie erkannt, trotzdem starten?");
+			LCD.drawString("Keine weisse Linie", 1, 1);
 			Sound.beep();
 		}
 		
 		while (!start){
 			values = sensoren.getValues();
 			if (values[3] == 1){
-				//HArdcode clearen
-				for(int i =0 ; i < 8;i++){
-					LCD.drawString("                           ", 0, i);
-				}
 				LCD.clear();
-				LCD.refresh();
 				start = true;
 				Delay.msDelay(500);
 			}

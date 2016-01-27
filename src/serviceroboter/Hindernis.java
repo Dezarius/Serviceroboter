@@ -81,13 +81,13 @@ public class Hindernis{
 				return true;
 			}
 		}
-		else if (value[0] <= gyro - 10){
+		else if (value[0] <= gyro - 15){
 			motoren.stop();
 			motoren.motor_links.backward();
 			motoren.motor_rechts.forward();
 			
 		}
-		else if (value[0] >= gyro + 10){
+		else if (value[0] >= gyro + 15){
 			motoren.stop();
 			finish = true;
 		}
