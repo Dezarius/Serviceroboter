@@ -31,8 +31,7 @@ public class Motoren {
 	}
 	/**
 	 * Senkt den Farbsensor und Ultraschallsensor durch drehen des Motors ab
-	 * @param
-	 * @return 
+	 * 
 	 */
 	public void senkeSensoren(){
 		this.motor_sensor.rotate(-95, true);
@@ -40,8 +39,7 @@ public class Motoren {
 	}
 	/**
 	 * Hebt den Farbsensor und Ultraschallsensor durch drehen des Motors ab
-	 * @param
-	 * @return 
+	 * 
 	 */
 	public void hebeSensoren(){
 		this.motor_sensor.setSpeed(100);
@@ -49,8 +47,8 @@ public class Motoren {
 		this.motor_sensor.stop();
 	}
 	/**
-	 * Nach erkennen der Tonne wird näher an die Tonne herangefahren
-	 * @param
+	 * Nach erkennen der Tonne wird naeher an die Tonne herangefahren
+	 * 
 	 * @return Erkannte Farbe 
 	 */
 	public String ranfahren(){
@@ -91,8 +89,8 @@ public class Motoren {
 	}
 	/**
 	 * Richtet den Roboter aus
-	 * @param
-	 * @return 
+	 * 
+	 *  
 	 */
 	public void ausrichten(){
 		this.motor_links.setPower(40);
@@ -105,16 +103,15 @@ public class Motoren {
 	/**
 	 * Setzt die Geschwindigkeit von beiden Motoren
 	 * @param Die zu fahrende Geschwindigkeit
-	 * @return 
+	 *  
 	 */
 	public void setPower(int speed){
 		this.motor_links.setPower(speed);
 		this.motor_rechts.setPower(speed);
 	}
 	/**
-	 * Lässt Roboter geradeaus fahren
-	 * @param
-	 * @return 
+	 * Laesst Roboter geradeaus fahren
+	 * 
 	 */
 	public void forward() {
 		this.line = false;
@@ -132,17 +129,15 @@ public class Motoren {
 	}
 	/**
 	 * Stopt die Motoren
-	 * @param
-	 * @return 
+	 *  
 	 */
 	public void stop() {
 		this.motor_links.stop();
 		this.motor_rechts.stop();
 	}
 	/**
-	 * Gleicht schräge Fahrweise auf der Linie aus
-	 * @param
-	 * @return 
+	 * Gleicht schraege Fahrweise auf der Linie aus
+	 * 
 	 */
 	public void diviation() {
 		float values[] = this.sensoren.getValues();
@@ -166,8 +161,7 @@ public class Motoren {
 	}
 	/**
 	 * Sucht die Linie nach einer Kurve
-	 * @param
-	 * @return 
+	 * 
 	 */
 	public void findLine(){
 		this.forward = false;
@@ -213,22 +207,17 @@ public class Motoren {
 		} 
 		else {
 			if (this.rightfirst && values[0] > 60 && this.line) {
-				//Sound.twoBeeps();
 				this.stop();
-				//System.out.println("ENDE");
 			}
 			if (!this.rightfirst && values[0] < -60 && this.line) {
-				//Sound.twoBeeps();
 				this.stop();
-				//System.out.println("ENDE");
 			}
 		}
 		
 	}
 	/**
 	 * Macht eine Linksdrehung
-	 * @param
-	 * @return 
+	 * 
 	 */
 	public void turnLeft() {
 		float values[] = this.sensoren.getValues();
@@ -261,8 +250,7 @@ public class Motoren {
 	}
 	/**
 	 * Macht eine Rechtsdrehung
-	 * @param
-	 * @return 
+	 * 
 	 */
 	public void turnRight() {
 		float values[] = this.sensoren.getValues();

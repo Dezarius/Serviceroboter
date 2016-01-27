@@ -22,9 +22,9 @@ public class Hindernis{
 		this.motoren = motoren;
 	}
 	/**
-	 * Umfährt die Tonne
+	 * Umfaehrt die Tonne
+	 * 
 	 * @param Farbe der Linie
-	 * @return 
 	 */
 	public boolean circumvent(float value){
 		if (!convert){
@@ -56,8 +56,8 @@ public class Hindernis{
 	}
 	/**
 	 * Versucht gerade vor der Tonne zu stehen
+	 * 
 	 * @param Gyrowerte
-	 * @return 
 	 */
 	public boolean findTonne(float[] value) {
 		endTime = System.currentTimeMillis();
@@ -76,7 +76,6 @@ public class Hindernis{
 			return true;
 		}
 		else if(value[2] < dist){
-			//System.out.println(dist + " -> " + value[2]);
 			dist = value[2];
 			smallGyro = value[0];
 		}
@@ -107,40 +106,6 @@ public class Hindernis{
 			finish = true;
 		}
 
-		
-		
-		
-		
-		/*if (!first) {
-			motoren.motor_rechts.setPower(15);
-			motoren.motor_links.setPower(15);
-			motoren.motor_rechts.backward();
-			motoren.motor_links.forward();
-			first = true;
-			oldDist = value;
-		}
-		else if (newDist < oldDist) {
-			rightDirection = true;
-			oldDist = newDist;
-		}
-		else  if (newDist > oldDist){
-			if (rightDirection) {
-				motoren.stop();
-				first = false;
-				rightDirection = false;
-				return true;
-			}
-			else {
-				motoren.stop();
-				motoren.motor_rechts.setPower(15);
-				motoren.motor_links.setPower(15);
-				motoren.motor_rechts.forward();
-				motoren.motor_links.backward();
-				oldDist = newDist;
-			}
-		}
-		
-		return false;*/
 		return false;
 	}
 }
